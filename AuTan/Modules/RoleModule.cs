@@ -32,8 +32,8 @@ namespace AuTan.Modules
             {
                 ulong[] role_ids = new ulong[roles.Length];
                 for (int i = 0; i < roles.Length; i++)
-                { 
-            
+    {
+        
                     role_ids[i] = roles[i].Id;
                 }
                 await user.RemoveRolesAsync(role_ids);

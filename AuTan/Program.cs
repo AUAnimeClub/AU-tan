@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Authentication.ExtendedProtection;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -11,7 +10,7 @@ namespace AuTan
 {
     public static class Program
     {
-        public static IServiceProvider BuildServices()
+        private static IServiceProvider BuildServices()
         {
             var services = new ServiceCollection();
             return services.BuildServiceProvider();
@@ -20,7 +19,7 @@ namespace AuTan
         private static async Task Main(string[] args)
         {
             DotEnv.Load(new DotEnvOptions(probeLevelsToSearch: 5, probeForEnv:true));
-            
+
             var client = new DiscordSocketClient();
             client.Log += message =>
             {
@@ -30,9 +29,10 @@ namespace AuTan
 
             await new CommandHandler(client, new CommandService(), BuildServices())
                 .InstallCommandsAsync();
-            
+
             await client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("DISCORD_TOKEN"));
             await client.StartAsync();
+            await client.SetGameAsync("something");
 
             await Task.Delay(-1);
         }
