@@ -9,7 +9,7 @@ namespace AuTan.Modules
     {
         [Command("add")]
         [Summary("Add a role(s)")]
-        public async Task AddRollAsyync(params IRole[] roles)
+        public async Task AddRollAsync(params IRole[] roles)
         {
             IGuildUser user = Context.User as IGuildUser;
             if (user.GuildPermissions.ManageRoles)
@@ -25,7 +25,7 @@ namespace AuTan.Modules
 
         [Command("remove")]
         [Summary("Remove a role(s)")]
-        public async Task RemoveRollAsyync(params IRole[] roles)
+        public async Task RemoveRollAsync(params IRole[] roles)
         {
             IGuildUser user = Context.User as IGuildUser;
             if (user.GuildPermissions.ManageRoles)
