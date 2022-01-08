@@ -14,12 +14,12 @@ namespace AuTan.Modules
             IGuildUser user = Context.User as IGuildUser;
             if (user.GuildPermissions.ManageRoles)
             {
-                ulong[] role_ids = new ulong[roles.Length];
+                ulong[] roleIds = new ulong[roles.Length];
                 for (int i = 0; i < roles.Length; i++)
                 {
-                    role_ids[i] = roles[i].Id;
+                    roleIds[i] = roles[i].Id;
                 }
-                await user.AddRolesAsync(role_ids);
+                await user.AddRolesAsync(roleIds);
             }
         }
 
@@ -30,13 +30,12 @@ namespace AuTan.Modules
             IGuildUser user = Context.User as IGuildUser;
             if (user.GuildPermissions.ManageRoles)
             {
-                ulong[] role_ids = new ulong[roles.Length];
+                ulong[] roleIds = new ulong[roles.Length];
                 for (int i = 0; i < roles.Length; i++)
-    {
-        
-                    role_ids[i] = roles[i].Id;
+                {
+                    roleIds[i] = roles[i].Id;
                 }
-                await user.RemoveRolesAsync(role_ids);
+                await user.RemoveRolesAsync(roleIds);
             }
         }
     }
