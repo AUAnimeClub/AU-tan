@@ -3,4 +3,5 @@ WORKDIR /app
 
 COPY . .
 RUN dotnet restore
+RUN dotnet build
 CMD ["dotnet", "run", "--project", "AuTan"]
