@@ -6,6 +6,7 @@ namespace AuTan.Modules
 {
     public class ProfileModule : ModuleBase<SocketCommandContext>
     {
+        [Command("me")]
         public async Task Me()
         {
             var embed = new EmbedBuilder()

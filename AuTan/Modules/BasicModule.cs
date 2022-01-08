@@ -17,7 +17,8 @@ namespace AuTan.Modules
         [Command("help")]
         public async Task Help()
         {
-            var helpMsg = await File.ReadAllTextAsync("../../../../help/index.md");
+            var helpMsg = await File.ReadAllTextAsync(Path.Join(AppDomain.CurrentDomain.BaseDirectory,
+                "./help/index.md"));
             await Context.User.SendMessageAsync(helpMsg);
             if (Context.Guild != null)
             {
