@@ -12,7 +12,7 @@
         <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="4.0.1" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0-rc.1.21451.13" />
 
-        <None Include="$(SolutionDir)/resources/**" CopyToOutputDirectory="PreserveNewest" />
+        <None Include="$(ProjectDir)/resources/**" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
     
 </Project>

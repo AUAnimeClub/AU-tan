@@ -17,12 +17,19 @@ namespace AuTan.Modules
         [Command("help")]
         public async Task Help()
         {
-            var helpMsg = await File.ReadAllTextAsync(Path.Join(AppDomain.CurrentDomain.BaseDirectory,
-                "./help/index.md"));
-            await Context.User.SendMessageAsync(helpMsg);
-            if (Context.Guild != null)
+            try
             {
-                await Context.Message.AddReactionAsync(new Emoji("📬"));
+                var helpMsg = await File.ReadAllTextAsync(Path.Join(AppDomain.CurrentDomain.BaseDirectory,
+                    "./resources/help/index.md"));
+                await Context.User.SendMessageAsync(helpMsg);
+                if (Context.Guild != null)
+                {
+                    await Context.Message.AddReactionAsync(new Emoji("📬"));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
     }
