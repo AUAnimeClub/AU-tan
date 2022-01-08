@@ -9,13 +9,13 @@ namespace AuTan.Modules
     {
         [Command("add")]
         [Summary("Add a role(s)")]
-        public async Task AddRollAsync(params IRole[] roles)
+        public async Task AddRoleAsync(params IRole[] roles)
         {
-            IGuildUser user = Context.User as IGuildUser;
+            var user = (IGuildUser) Context.User;
             if (user.GuildPermissions.ManageRoles)
             {
-                ulong[] roleIds = new ulong[roles.Length];
-                for (int i = 0; i < roles.Length; i++)
+                var roleIds = new ulong[roles.Length];
+                for (var i = 0; i < roles.Length; i++)
                 {
                     roleIds[i] = roles[i].Id;
                 }
@@ -25,13 +25,13 @@ namespace AuTan.Modules
 
         [Command("remove")]
         [Summary("Remove a role(s)")]
-        public async Task RemoveRollAsync(params IRole[] roles)
+        public async Task RemoveRoleAsync(params IRole[] roles)
         {
-            IGuildUser user = Context.User as IGuildUser;
+            var user = (IGuildUser) Context.User;
             if (user.GuildPermissions.ManageRoles)
             {
-                ulong[] roleIds = new ulong[roles.Length];
-                for (int i = 0; i < roles.Length; i++)
+                var roleIds = new ulong[roles.Length];
+                for (var i = 0; i < roles.Length; i++)
                 {
                     roleIds[i] = roles[i].Id;
                 }
