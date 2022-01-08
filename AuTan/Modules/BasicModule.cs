@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 
@@ -6,17 +8,21 @@ namespace AuTan.Modules
 {
     public class BasicModule : ModuleBase<SocketCommandContext>
     {
-        [Command("me")]
+        [Command("ping")]
         public async Task Ping()
         {
-            var embed = new EmbedBuilder()
-                .WithTitle($"{Context.User.Username}#{Context.User.Discriminator}")
-                .WithThumbnailUrl(Context.User.GetAvatarUrl())
-                .WithFields(
-                    new EmbedFieldBuilder().WithName("Level").WithValue(42),
-                    new EmbedFieldBuilder().WithName("XP").WithValue("32/69420")
-                );
-            await ReplyAsync(embed: embed.Build());
+            await ReplyAsync("pong!");
+        }
+        
+        [Command("help")]
+        public async Task Help()
+        {
+            var helpMsg = await File.ReadAllTextAsync("../../../../help/index.md");
+            await Context.User.SendMessageAsync(helpMsg);
+            if (Context.Guild != null)
+            {
+                await Context.Message.AddReactionAsync(new Emoji("📬"));
+            }
         }
     }
 }
