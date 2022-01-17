@@ -11,6 +11,7 @@ namespace AuTan
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
         private readonly IServiceProvider _service;
+        private readonly string _prefix;
 
         // Retrieve client and CommandService instance via ctor
         public CommandHandler(DiscordSocketClient client, CommandService commands, IServiceProvider service)
@@ -18,6 +19,8 @@ namespace AuTan
             _commands = commands;
             _client = client;
             _service = service;
+            _prefix = Environment.GetEnvironmentVariable("PREFIX") ?? ".";
+            
         }
         
         public async Task InstallCommandsAsync()
@@ -35,7 +38,7 @@ namespace AuTan
             // Create a number to track where the prefix ends and the command begins
             var argPos = 0;
 
-            if (!(message.HasCharPrefix('.', ref argPos) || 
+            if (!(message.HasStringPrefix(_prefix, ref argPos) || 
                 message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot)
                 return;

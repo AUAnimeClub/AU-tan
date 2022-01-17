@@ -13,6 +13,14 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0-rc.1.21451.13" />
 
         <None Include="$(ProjectDir)/resources/**" CopyToOutputDirectory="PreserveNewest" />
+
+        <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
+
+        <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta13" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="resources\card" />
     </ItemGroup>
     
 </Project>

@@ -4,33 +4,32 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 
-namespace AuTan.Modules
+namespace AuTan.Modules;
+
+public class BasicModule : ModuleBase<SocketCommandContext>
 {
-    public class BasicModule : ModuleBase<SocketCommandContext>
+    [Command("ping")]
+    public async Task Ping()
     {
-        [Command("ping")]
-        public async Task Ping()
-        {
-            await ReplyAsync("pong!");
-        }
+        await ReplyAsync("pong!");
+    }
         
-        [Command("help")]
-        public async Task Help()
+    [Command("help")]
+    public async Task Help()
+    {
+        try
         {
-            try
+            var helpMsg = await File.ReadAllTextAsync(Path.Join(AppDomain.CurrentDomain.BaseDirectory,
+                "./resources/help/index.md"));
+            await Context.User.SendMessageAsync(helpMsg);
+            if (Context.Guild != null)
             {
-                var helpMsg = await File.ReadAllTextAsync(Path.Join(AppDomain.CurrentDomain.BaseDirectory,
-                    "./resources/help/index.md"));
-                await Context.User.SendMessageAsync(helpMsg);
-                if (Context.Guild != null)
-                {
-                    await Context.Message.AddReactionAsync(new Emoji("📬"));
-                }
+                await Context.Message.AddReactionAsync(new Emoji("📬"));
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
         }
     }
 }
