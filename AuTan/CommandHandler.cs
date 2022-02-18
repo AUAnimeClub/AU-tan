@@ -44,7 +44,11 @@ namespace AuTan
                 return;
 
             var context = new SocketCommandContext(_client, message);
-            await _commands.ExecuteAsync(context, argPos, _service);
+            var result = await _commands.ExecuteAsync(context, argPos, _service);
+            if (result.Error != null)
+            {
+                Console.WriteLine($"Error: {result.ErrorReason}");
+            } 
         }
     }
 }
