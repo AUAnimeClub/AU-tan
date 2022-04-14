@@ -6,35 +6,37 @@ using Discord.WebSocket;
 using dotenv.net;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuTan
+namespace AuTan;
+
+public static class Program
 {
-    public static class Program
+    private static IServiceProvider BuildServices()
     {
-        private static IServiceProvider BuildServices()
-        {
-            var services = new ServiceCollection();
-            return services.BuildServiceProvider();
-        }
+        var services = new ServiceCollection();
+        return services.BuildServiceProvider();
+    }
         
-        private static async Task Main(string[] args)
+    private static async Task Main(string[] args)
+    {
+        DotEnv.Load(new DotEnvOptions(probeLevelsToSearch: 5, probeForEnv:true));
+
+        var client = new DiscordSocketClient(new DiscordSocketConfig
         {
-            DotEnv.Load(new DotEnvOptions(probeLevelsToSearch: 5, probeForEnv:true));
+            GatewayIntents = GatewayIntents.All
+        });
+        client.Log += message =>
+        {
+            Console.WriteLine(message.ToString());
+            return Task.CompletedTask;
+        };
 
-            var client = new DiscordSocketClient();
-            client.Log += message =>
-            {
-                Console.WriteLine(message.ToString());
-                return Task.CompletedTask;
-            };
+        await new CommandHandler(client, new CommandService(), BuildServices())
+            .InstallCommandsAsync();
 
-            await new CommandHandler(client, new CommandService(), BuildServices())
-                .InstallCommandsAsync();
+        await client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("DISCORD_TOKEN"));
+        await client.StartAsync();
+        await client.SetGameAsync("something");
 
-            await client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("DISCORD_TOKEN"));
-            await client.StartAsync();
-            await client.SetGameAsync("something");
-
-            await Task.Delay(-1);
-        }
+        await Task.Delay(-1);
     }
 }
