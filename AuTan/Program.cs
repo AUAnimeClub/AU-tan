@@ -22,7 +22,7 @@ public static class Program
 
         var client = new DiscordSocketClient(new DiscordSocketConfig
         {
-            GatewayIntents = GatewayIntents.All
+            GatewayIntents = GatewayIntents.All,
         });
         client.Log += message =>
         {
