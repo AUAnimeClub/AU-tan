@@ -50,8 +50,13 @@ public class ReactionModule : ModuleBase<SocketCommandContext>
         foreach (IUser user in reactions)
         {
             IGuildUser guild_user = Context.Guild.GetUser(user.Id);
+            if (guild_user == null)
+            {
+                continue;
+            }
+            string nickname = guild_user.Nickname != null ? guild_user.Nickname : "";
             string user_str = string.Format("{0}, {1}",
-                user.ToString(), guild_user.Nickname);
+                user.ToString(), nickname);
             user_list.Add(user_str);
         }
         reactions_dict.Add(
@@ -157,8 +162,8 @@ public class ReactionModule : ModuleBase<SocketCommandContext>
     public async Task<IEnumerable<IUser>> GetReactionsAsync(
        string emote_str, string message_link)
     {
-        IEmote emote = emote_str.EnumerateRunes().Count() == 1 ?
-            new Emoji(emote_str) : Emote.Parse(emote_str);
+        IEmote emote = Regex.IsMatch(emote_str, @"^<:.*:>$", RegexOptions.Singleline) ?
+            Emote.Parse(emote_str) : new Emoji(emote_str);
         IMessage message = await Utils.MessageFromUrlAsync(message_link, Context);
         IEnumerable<IUser> reactions =
             await message.GetReactionUsersAsync(emote, limit).FlattenAsync();
