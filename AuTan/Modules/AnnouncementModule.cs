@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -15,19 +14,12 @@ public class AnnouncementModule : ModuleBase<SocketCommandContext>
         var user = (SocketGuildUser) Context.User;
         if (user.Roles.All(x => x.Name != "Committee"))
         {
-            await ReplyAsync(
-                "...You're not a committee member, why are you trying to make an announcement?");
+            await ReplyAsync("You don't have permission to make announcements "+
+                "(requires Committee role). ");
             return;
         }
         await channel.SendMessageAsync(content);
-    }
-
-    private async Task<IMessage> MessageFromUrl(string url)
-    {
-        var msgUri = url.Split("/");
-        return await ((ISocketMessageChannel) Context.Guild
-                .GetChannel(ulong.Parse(msgUri[^2])))
-                .GetMessageAsync(ulong.Parse(msgUri[^1]));
+        await Context.Message.AddReactionAsync(new Emoji("📝"));
     }
     
     [Command("announce.edit")]
@@ -36,12 +28,12 @@ public class AnnouncementModule : ModuleBase<SocketCommandContext>
         var user = (SocketGuildUser) Context.User;
         if (user.Roles.All(x => x.Name != "Committee"))
         {
-            await ReplyAsync(
-                "...You're not a committee member, why are you trying to make an announcement?");
+            await ReplyAsync("You don't have permission to edit announcements " +
+                "(requires Committee role). ");
             return;
         }
 
-        var msg = await MessageFromUrl(oldMessageUrl);
+        var msg = await Utils.MessageFromUrlAsync(oldMessageUrl, Context);
         await ((IUserMessage) msg).ModifyAsync(x => x.Content = content);
         await Context.Message.AddReactionAsync(new Emoji("📝"));
     }
